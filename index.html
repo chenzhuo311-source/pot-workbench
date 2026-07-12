@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>野外盆栽实验工作台</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 16px;
+      background: #f3f4f1;
+      color: #222;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Microsoft YaHei",
+        Arial,
+        sans-serif;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.97);
+      border: 1px solid #e5e7e2;
+      border-radius: 24px;
+      padding: 48px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+    }
+
+    .plant-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+      color: #75836d;
+      display: block;
+    }
+
+    h1 {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(30px, 6vw, 46px);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      text-align: center;
+      color: #6a6a6a;
+      font-size: 18px;
+    }
+
+    .divider {
+      width: 60px;
+      height: 2px;
+      margin: 30px auto 38px;
+      background: #86927e;
+    }
+
+    h2 {
+      margin: 42px 0 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e7e9e4;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 34px;
+    }
+
+    .info-item {
+      padding: 16px 0;
+      border-bottom: 1px solid #eceee9;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 4px;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .value {
+      display: block;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .design-section {
+      margin-top: 10px;
+    }
+
+    .image-frame {
+      padding: 14px;
+      background: #f5f6f3;
+      border: 1px solid #e2e5df;
+      border-radius: 18px;
+    }
+
+    .design-image {
+      display: block;
+      width: 100%;
+      max-height: 620px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 12px;
+      cursor: zoom-in;
+    }
+
+    .image-caption {
+      margin: 12px 4px 0;
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .upload-box {
+      margin-top: 20px;
+      padding: 22px;
+      text-align: center;
+      background: #f6f7f4;
+      border: 1px dashed #aab2a4;
+      border-radius: 14px;
+    }
+
+    .upload-box p {
+      margin: 0 0 12px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .upload-button {
+      display: inline-block;
+      padding: 10px 18px;
+      background: #718069;
+      color: white;
+      border: 0;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .upload-button:hover {
+      background: #5f6e58;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .notice {
+      padding: 18px 20px;
+      background: #f3f5f1;
+      border-left: 4px solid #7d8b75;
+      border-radius: 10px;
+    }
+
+    footer {
+      margin-top: 42px;
+      padding-top: 24px;
+      border-top: 1px solid #e8e9e5;
+      text-align: center;
+      color: #888;
+      font-size: 14px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      inset: 0;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.88);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal img {
+      max-width: 96%;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 26px;
+      color: white;
+      font-size: 38px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 650px) {
+      body {
+        padding: 16px 10px;
+      }
+
+      .card {
+        padding: 30px 22px;
+        border-radius: 18px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .modal {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <section class="card">
+
+      <svg class="plant-icon" viewBox="0 0 100 100"
+           fill="none" stroke="currentColor" stroke-width="3">
+        <path d="M50 82V34" />
+        <path d="M50 47C37 47 26 39 24 26C38 25 48 32 50 47Z" />
+        <path d="M50 59C63 59 74 51 76 38C62 37 52 44 50 59Z" />
+        <path d="M50 36C42 27 43 16 50 9C58 17 58 28 50 36Z" />
+        <path d="M27 83H73" />
+      </svg>
+
+      <h1>野外盆栽实验工作台</h1>
+
+      <div class="subtitle">
+        Outdoor Pot Experiment Workbench
+      </div>
+
+      <div class="divider"></div>
+
+      <h2>基本信息</h2>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">设计人</span>
+          <span class="value">陈卓</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">制造时间</span>
+          <span class="value">2026年7月</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">盆栽架容量</span>
+          <span class="value">170盆</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">亚克力板厚度</span>
+          <span class="value">0.8 mm</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">亚克力板透光率</span>
+          <span class="value">92% ± 1%</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">设施状态</span>
+          <span class="value">正常使用</span>
+        </div>
+      </div>
+
+      <h2>原始设计图</h2>
+
+      <div class="design-section">
+        <div class="image-frame">
+          <img
+            id="designImage"
+            class="design-image"
+            src="images/original-design.jpg"
+            alt="野外盆栽实验工作台原始设计图"
+            onclick="openModal()"
+          >
+
+          <div class="image-caption">
+            野外盆栽实验工作台原始设计图，点击图片可放大查看
+          </div>
+        </div>
+
+        <div class="upload-box">
+          <p>
+            可在本地选择一张图片进行临时预览。刷新网页后不会保存。
+          </p>
+
+          <label class="upload-button" for="imageUpload">
+            选择图片预览
+          </label>
+
+          <input
+            type="file"
+            id="imageUpload"
+            accept="image/png, image/jpeg, image/webp"
+          >
+        </div>
+      </div>
+
+      <h2>设施用途</h2>
+
+      <p>
+        本设施用于开展野外盆栽控制实验，为植物提供统一、稳定的放置平台，
+        便于开展植物生长、土壤环境、大气沉降及相关环境过程研究。
+      </p>
+
+      <h2>使用注意事项</h2>
+
+      <div class="notice">
+        盆栽应均匀摆放，避免局部荷载过大。实验期间应定期检查框架、
+        亚克力板及连接部件。遇到强风、暴雨等极端天气时，应及时进行安全检查。
+      </div>
+
+      <h2>维护记录</h2>
+
+      <p>
+        可在此处填写检查日期、维护内容、负责人及设备状态。
+      </p>
+
+      <footer>
+        最近更新：2026年7月<br>
+        资料维护人：陈卓
+      </footer>
+
+    </section>
+  </main>
+
+  <div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" alt="原始设计图放大预览">
+  </div>
+
+  <script>
+    const imageUpload = document.getElementById("imageUpload");
+    const designImage = document.getElementById("designImage");
+
+    imageUpload.addEventListener("change", function () {
+      const file = this.files && this.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        alert("请选择图片文件。");
+        return;
+      }
+
+      const temporaryUrl = URL.createObjectURL(file);
+      designImage.src = temporaryUrl;
+    });
+
+    function openModal() {
+      const modal = document.getElementById("imageModal");
+      const modalImage = document.getElementById("modalImage");
+
+      modalImage.src = designImage.src;
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("imageModal").style.display = "none";
+    }
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
