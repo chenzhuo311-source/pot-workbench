@@ -3,390 +3,984 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>野外盆栽实验工作台</title>
+  <meta name="description" content="野外盆栽实验工作台设施信息页面">
+  <title>野外盆栽实验工作台 | Outdoor Pot Experiment Workbench</title>
 
   <style>
+    :root {
+      --ink: #151515;
+      --muted: #6e6e73;
+      --line: rgba(20, 20, 20, 0.10);
+      --paper: #ffffff;
+      --soft: #f5f5f7;
+      --accent: #64705e;
+      --max-width: 1180px;
+    }
+
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      padding: 32px 16px;
-      background: #f3f4f1;
-      color: #222;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Microsoft YaHei",
-        Arial,
-        sans-serif;
-      line-height: 1.7;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Times New Roman", "Songti SC", "SimSun", serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .en {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 0.78em;
+      font-weight: 400;
+      letter-spacing: 0.035em;
+      line-height: 1.35;
     }
 
     .container {
-      max-width: 900px;
+      width: min(calc(100% - 40px), var(--max-width));
       margin: 0 auto;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.97);
-      border: 1px solid #e5e7e2;
-      border-radius: 24px;
-      padding: 48px;
-      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+    /* Navigation */
+    .site-nav {
+      position: fixed;
+      z-index: 50;
+      top: 0;
+      left: 0;
+      width: 100%;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(8, 16, 22, 0.35);
+      backdrop-filter: blur(18px) saturate(130%);
+      -webkit-backdrop-filter: blur(18px) saturate(130%);
     }
 
-    .plant-icon {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 20px;
-      color: #75836d;
-      display: block;
+    .nav-inner {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      color: #fff;
     }
 
-    h1 {
-      margin: 0;
-      text-align: center;
-      font-size: clamp(30px, 6vw, 46px);
-      font-weight: 600;
+    .brand {
+      font-size: 17px;
+      font-weight: 700;
       letter-spacing: 0.04em;
+      white-space: nowrap;
     }
 
-    .subtitle {
-      margin-top: 8px;
+    .brand .en {
+      margin-top: 1px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 11px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.84);
+    }
+
+    .nav-links a {
+      transition: color 180ms ease;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 72vh;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(8, 18, 26, 0.20) 0%, rgba(8, 18, 26, 0.34) 54%, rgba(8, 18, 26, 0.78) 100%),
+        url("images/hero-mountain.jpg") center 52% / cover no-repeat;
+      color: #fff;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 34%;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.36));
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: min(calc(100% - 40px), 980px);
+      padding: 120px 0 70px;
       text-align: center;
-      color: #6a6a6a;
-      font-size: 18px;
     }
 
-    .divider {
-      width: 60px;
-      height: 2px;
-      margin: 30px auto 38px;
-      background: #86927e;
+    .eyebrow {
+      margin: 0 0 20px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 14px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
     }
 
-    h2 {
-      margin: 42px 0 18px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #e7e9e4;
-      font-size: 22px;
-      font-weight: 600;
+    .eyebrow .en {
+      color: rgba(255, 255, 255, 0.60);
+      font-size: 11px;
     }
 
-    .info-grid {
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 88px);
+      font-weight: 700;
+      letter-spacing: 0.015em;
+      line-height: 1.05;
+      text-shadow: 0 3px 28px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero h1 .en {
+      margin-top: 18px;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(20px, 2.5vw, 34px);
+      letter-spacing: 0.015em;
+    }
+
+    .hero-summary {
+      max-width: 720px;
+      margin: 30px auto 0;
+      color: rgba(255, 255, 255, 0.88);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.7;
+    }
+
+    .hero-summary .en {
+      color: rgba(255, 255, 255, 0.70);
+      font-size: 0.80em;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      z-index: 3;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    .hero-scroll::after {
+      content: "";
+      display: block;
+      width: 1px;
+      height: 28px;
+      margin: 9px auto 0;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* General sections */
+    section.content-section {
+      padding: 104px 0;
+    }
+
+    section.content-section.soft {
+      background: var(--soft);
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 46px;
+    }
+
+    .section-heading.center {
+      margin-right: auto;
+      margin-left: auto;
+      text-align: center;
+    }
+
+    .section-kicker {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .section-kicker .en {
+      font-size: 11px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(34px, 4vw, 58px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: 0.01em;
+    }
+
+    .section-heading h2 .en {
+      margin-top: 10px;
+      font-size: 0.43em;
+    }
+
+    .section-description {
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.75;
+    }
+
+    .section-description .en {
+      font-size: 0.82em;
+    }
+
+    /* Info grid */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .spec-item {
+      min-height: 170px;
+      padding: 32px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .spec-label {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .spec-value {
+      margin-top: 22px;
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 700;
+      line-height: 1.12;
+    }
+
+    .spec-value .unit {
+      font-size: 0.62em;
+      font-weight: 400;
+    }
+
+    /* Split feature */
+    .feature-split {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px 34px;
+      gap: 72px;
+      align-items: center;
     }
 
-    .info-item {
-      padding: 16px 0;
-      border-bottom: 1px solid #eceee9;
+    .feature-copy h3 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 50px);
+      line-height: 1.15;
     }
 
-    .label {
+    .feature-copy h3 .en {
+      font-size: 0.45em;
+    }
+
+    .feature-copy p {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.85;
+    }
+
+    .feature-copy p .en {
+      font-size: 0.82em;
+    }
+
+    .feature-list {
+      margin: 32px 0 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .feature-list li {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 17px;
+    }
+
+    .feature-list .en {
+      font-size: 0.80em;
+    }
+
+    .feature-visual {
+      min-height: 520px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      background:
+        linear-gradient(145deg, rgba(21, 21, 21, 0.04), rgba(21, 21, 21, 0.00)),
+        #eceeea;
+      box-shadow: 0 30px 70px rgba(20, 25, 18, 0.10);
+    }
+
+    .feature-visual::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      top: 78px;
+      left: 50%;
+      border: 1px solid rgba(100, 112, 94, 0.32);
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    .feature-visual::after {
+      content: "170";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      font-size: 118px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+    }
+
+    .visual-caption {
+      position: absolute;
+      z-index: 2;
+      right: 30px;
+      bottom: 26px;
+      left: 30px;
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .visual-caption .en {
+      font-size: 0.8em;
+    }
+
+    /* Image sections */
+    .image-panel {
+      overflow: hidden;
+      border-radius: 26px;
+      background: #ececec;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.10);
+    }
+
+    .image-panel img {
+      width: 100%;
+      min-height: 420px;
+      object-fit: cover;
+    }
+
+    .image-panel.is-empty {
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(100, 112, 94, 0.08), transparent),
+        #f3f3f1;
+    }
+
+    .image-panel.is-empty::before {
+      content: "请在 GitHub 后台上传 images/original-design.jpg";
+      max-width: 70%;
+      color: var(--muted);
+      font-size: 19px;
+      text-align: center;
+      white-space: pre-line;
+    }
+
+    .panel-caption {
+      padding: 22px 26px 25px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      background: #fff;
+    }
+
+    .panel-caption strong {
       display: block;
       margin-bottom: 4px;
-      color: #777;
-      font-size: 14px;
-    }
-
-    .value {
-      display: block;
+      color: var(--ink);
       font-size: 18px;
-      font-weight: 500;
     }
 
-    .design-section {
-      margin-top: 10px;
+    .panel-caption .en {
+      font-size: 0.8em;
     }
 
-    .image-frame {
-      padding: 14px;
-      background: #f5f6f3;
-      border: 1px solid #e2e5df;
-      border-radius: 18px;
+    /* Work gallery */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
     }
 
-    .design-image {
-      display: block;
+    .gallery-card {
+      min-height: 360px;
+      overflow: hidden;
+      position: relative;
+      border-radius: 22px;
+      background: #e9e9e7;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.08);
+    }
+
+    .gallery-card img {
       width: 100%;
-      max-height: 620px;
-      object-fit: contain;
-      background: #fff;
-      border-radius: 12px;
-      cursor: zoom-in;
+      height: 360px;
+      object-fit: cover;
+      transition: transform 500ms ease;
     }
 
-    .image-caption {
-      margin: 12px 4px 0;
-      text-align: center;
-      color: #777;
-      font-size: 14px;
+    .gallery-card:hover img {
+      transform: scale(1.025);
     }
 
-    .upload-box {
-      margin-top: 20px;
-      padding: 22px;
-      text-align: center;
-      background: #f6f7f4;
-      border: 1px dashed #aab2a4;
-      border-radius: 14px;
-    }
-
-    .upload-box p {
-      margin: 0 0 12px;
-      color: #666;
-      font-size: 14px;
-    }
-
-    .upload-button {
-      display: inline-block;
-      padding: 10px 18px;
-      background: #718069;
-      color: white;
-      border: 0;
-      border-radius: 9px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    .upload-button:hover {
-      background: #5f6e58;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    .notice {
-      padding: 18px 20px;
-      background: #f3f5f1;
-      border-left: 4px solid #7d8b75;
-      border-radius: 10px;
-    }
-
-    footer {
-      margin-top: 42px;
-      padding-top: 24px;
-      border-top: 1px solid #e8e9e5;
-      text-align: center;
-      color: #888;
-      font-size: 14px;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      inset: 0;
+    .gallery-card.is-empty {
+      display: grid;
+      place-items: center;
       padding: 30px;
-      background: rgba(0, 0, 0, 0.88);
-      align-items: center;
-      justify-content: center;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 35%, rgba(100, 112, 94, 0.13), transparent 44%),
+        #f3f3f1;
     }
 
-    .modal img {
-      max-width: 96%;
-      max-height: 92vh;
-      object-fit: contain;
-      border-radius: 10px;
+    .gallery-card.is-empty::before {
+      content: attr(data-placeholder);
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+      text-align: center;
+      white-space: pre-line;
     }
 
-    .modal-close {
+    .gallery-overlay {
       position: absolute;
-      top: 18px;
-      right: 26px;
-      color: white;
-      font-size: 38px;
-      cursor: pointer;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 70px 24px 22px;
+      color: #fff;
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.74));
     }
 
-    @media (max-width: 650px) {
-      body {
-        padding: 16px 10px;
+    .gallery-card.is-empty .gallery-overlay {
+      display: none;
+    }
+
+    .gallery-overlay strong {
+      font-size: 19px;
+    }
+
+    .gallery-overlay .en {
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.76em;
+    }
+
+    /* Safety and maintenance */
+    .note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .note-card {
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #fff;
+    }
+
+    .note-card h3 {
+      margin: 0 0 18px;
+      font-size: 24px;
+    }
+
+    .note-card h3 .en {
+      font-size: 0.48em;
+    }
+
+    .note-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .note-card p .en {
+      font-size: 0.82em;
+    }
+
+    /* Footer */
+    footer {
+      padding: 54px 0 64px;
+      border-top: 1px solid var(--line);
+      background: #fff;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    footer strong {
+      color: var(--ink);
+      font-size: 17px;
+    }
+
+    footer .en {
+      font-size: 0.8em;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
       }
 
-      .card {
-        padding: 30px 22px;
-        border-radius: 18px;
+      .spec-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .info-grid {
+      .feature-split {
         grid-template-columns: 1fr;
-        gap: 0;
+        gap: 42px;
       }
 
-      .modal {
-        padding: 12px;
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-card,
+      .gallery-card img {
+        min-height: 420px;
+        height: 420px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        width: min(calc(100% - 24px), var(--max-width));
+      }
+
+      .hero {
+        min-height: 76vh;
+      }
+
+      .hero-content {
+        width: min(calc(100% - 28px), 980px);
+        padding-top: 104px;
+      }
+
+      section.content-section {
+        padding: 76px 0;
+      }
+
+      .spec-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .spec-item {
+        min-height: 144px;
+      }
+
+      .note-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-visual {
+        min-height: 420px;
+      }
+
+      .feature-visual::before {
+        width: 240px;
+        height: 240px;
+      }
+
+      .feature-visual::after {
+        font-size: 92px;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="container">
-    <section class="card">
+  <nav class="site-nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        野外盆栽实验工作台
+        <span class="en">Outdoor Pot Experiment Workbench</span>
+      </a>
 
-      <svg class="plant-icon" viewBox="0 0 100 100"
-           fill="none" stroke="currentColor" stroke-width="3">
-        <path d="M50 82V34" />
-        <path d="M50 47C37 47 26 39 24 26C38 25 48 32 50 47Z" />
-        <path d="M50 59C63 59 74 51 76 38C62 37 52 44 50 59Z" />
-        <path d="M50 36C42 27 43 16 50 9C58 17 58 28 50 36Z" />
-        <path d="M27 83H73" />
-      </svg>
-
-      <h1>野外盆栽实验工作台</h1>
-
-      <div class="subtitle">
-        Outdoor Pot Experiment Workbench
+      <div class="nav-links">
+        <a href="#overview">概览<span class="en">Overview</span></a>
+        <a href="#design">设计图<span class="en">Design</span></a>
+        <a href="#gallery">工作照<span class="en">Gallery</span></a>
+        <a href="#safety">使用维护<span class="en">Safety</span></a>
       </div>
+    </div>
+  </nav>
 
-      <div class="divider"></div>
+  <header class="hero" id="top">
+    <div class="hero-content">
+      <p class="eyebrow">
+        野外实验设施
+        <span class="en">Field Experimental Facility</span>
+      </p>
 
-      <h2>基本信息</h2>
+      <h1>
+        野外盆栽实验工作台
+        <span class="en">Outdoor Pot Experiment Workbench</span>
+      </h1>
 
-      <div class="info-grid">
-        <div class="info-item">
-          <span class="label">设计人</span>
-          <span class="value">陈卓</span>
-        </div>
+      <p class="hero-summary">
+        面向植物生长、土壤环境及大气过程研究的标准化野外盆栽平台。
+        <span class="en">
+          A standardized outdoor pot platform developed for plant growth,
+          soil environment, and atmospheric process research.
+        </span>
+      </p>
+    </div>
 
-        <div class="info-item">
-          <span class="label">制造时间</span>
-          <span class="value">2026年7月</span>
-        </div>
+    <div class="hero-scroll">
+      向下浏览
+      <span class="en" style="color:rgba(255,255,255,.62);">Scroll to Explore</span>
+    </div>
+  </header>
 
-        <div class="info-item">
-          <span class="label">盆栽架容量</span>
-          <span class="value">170盆</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">亚克力板厚度</span>
-          <span class="value">0.8 mm</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">亚克力板透光率</span>
-          <span class="value">92% ± 1%</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">设施状态</span>
-          <span class="value">正常使用</span>
-        </div>
-      </div>
-
-      <h2>原始设计图</h2>
-
-      <div class="design-section">
-        <div class="image-frame">
-          <img
-            id="designImage"
-            class="design-image"
-            src="images/original-design.jpg"
-            alt="野外盆栽实验工作台原始设计图"
-            onclick="openModal()"
-          >
-
-          <div class="image-caption">
-            野外盆栽实验工作台原始设计图，点击图片可放大查看
-          </div>
-        </div>
-
-        <div class="upload-box">
-          <p>
-            可在本地选择一张图片进行临时预览。刷新网页后不会保存。
+  <main>
+    <section class="content-section" id="overview">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">
+            基本信息
+            <span class="en">Basic Information</span>
           </p>
 
-          <label class="upload-button" for="imageUpload">
-            选择图片预览
-          </label>
+          <h2>
+            为规范化野外盆栽实验而设计
+            <span class="en">Designed for Standardized Outdoor Pot Experiments</span>
+          </h2>
 
-          <input
-            type="file"
-            id="imageUpload"
-            accept="image/png, image/jpeg, image/webp"
-          >
+          <p class="section-description">
+            设施采用统一的结构与材料配置，为盆栽提供稳定、整齐且便于维护的实验空间。
+            <span class="en">
+              The facility uses a unified structural and material configuration to provide
+              stable, orderly, and maintainable space for outdoor pot experiments.
+            </span>
+          </p>
+        </div>
+
+        <div class="spec-grid">
+          <div class="spec-item">
+            <div class="spec-label">
+              设计人
+              <span class="en">Designed by</span>
+            </div>
+            <div class="spec-value">陈卓<span class="en">Chen Zhuo</span></div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-label">
+              制造时间
+              <span class="en">Manufactured</span>
+            </div>
+            <div class="spec-value">2026.07<span class="en">July 2026</span></div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-label">
+              盆栽架容量
+              <span class="en">Potted Plant Rack Capacity</span>
+            </div>
+            <div class="spec-value">170 <span class="unit">盆</span><span class="en">170 Pots</span></div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-label">
+              亚克力板厚度
+              <span class="en">Acrylic Sheet Thickness</span>
+            </div>
+            <div class="spec-value">0.8 <span class="unit">mm</span></div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-label">
+              亚克力板透光率
+              <span class="en">Acrylic Sheet Light Transmittance</span>
+            </div>
+            <div class="spec-value">92% ± 1%</div>
+          </div>
+
+          <div class="spec-item">
+            <div class="spec-label">
+              设施状态
+              <span class="en">Facility Status</span>
+            </div>
+            <div class="spec-value">正常使用<span class="en">In Service</span></div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <h2>设施用途</h2>
+    <section class="content-section soft">
+      <div class="container feature-split">
+        <div class="feature-copy">
+          <p class="section-kicker">
+            核心能力
+            <span class="en">Core Capability</span>
+          </p>
 
-      <p>
-        本设施用于开展野外盆栽控制实验，为植物提供统一、稳定的放置平台，
-        便于开展植物生长、土壤环境、大气沉降及相关环境过程研究。
-      </p>
+          <h3>
+            统一承载，规范布置
+            <span class="en">Consistent Capacity. Organized Layout.</span>
+          </h3>
 
-      <h2>使用注意事项</h2>
+          <p>
+            工作台可容纳约170盆植物，并通过均匀布置减少局部荷载差异，
+            便于开展重复性高、条件相对一致的野外控制实验。
+            <span class="en">
+              The workbench accommodates approximately 170 pots and supports even spatial
+              arrangement, helping reduce localized load differences and improve experimental consistency.
+            </span>
+          </p>
 
-      <div class="notice">
-        盆栽应均匀摆放，避免局部荷载过大。实验期间应定期检查框架、
-        亚克力板及连接部件。遇到强风、暴雨等极端天气时，应及时进行安全检查。
+          <ul class="feature-list">
+            <li>
+              盆栽应均匀摆放
+              <span class="en">Pots should be distributed evenly.</span>
+            </li>
+            <li>
+              避免局部集中荷载
+              <span class="en">Avoid localized concentrated loading.</span>
+            </li>
+            <li>
+              定期检查框架与连接部件
+              <span class="en">Inspect the frame and connections regularly.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="feature-visual">
+          <div class="visual-caption">
+            设计容量
+            <span class="en">Designed Capacity · 170 Pots</span>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <h2>维护记录</h2>
+    <section class="content-section" id="design">
+      <div class="container">
+        <div class="section-heading center">
+          <p class="section-kicker">
+            原始设计
+            <span class="en">Original Design</span>
+          </p>
 
-      <p>
-        可在此处填写检查日期、维护内容、负责人及设备状态。
-      </p>
+          <h2>
+            结构设计图
+            <span class="en">Structural Design Drawing</span>
+          </h2>
 
-      <footer>
-        最近更新：2026年7月<br>
-        资料维护人：陈卓
-      </footer>
+          <p class="section-description">
+            设计图由网站维护人员在 GitHub 仓库后台上传和替换。
+            <span class="en">
+              The design drawing is uploaded and replaced by the site administrator
+              through the GitHub repository.
+            </span>
+          </p>
+        </div>
 
+        <figure class="image-panel" id="designPanel">
+          <img
+            src="images/original-design.jpg"
+            alt="野外盆栽实验工作台原始设计图"
+            onerror="this.parentElement.classList.add('is-empty'); this.remove();"
+          >
+          <figcaption class="panel-caption">
+            <strong>
+              野外盆栽实验工作台原始设计图
+              <span class="en">Original Design Drawing of the Outdoor Pot Experiment Workbench</span>
+            </strong>
+            上传路径：images/original-design.jpg
+            <span class="en">Upload path: images/original-design.jpg</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="content-section soft" id="gallery">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">
+            工作照片
+            <span class="en">Work Gallery</span>
+          </p>
+
+          <h2>
+            建造、安装与运行记录
+            <span class="en">Construction, Installation, and Operation</span>
+          </h2>
+
+          <p class="section-description">
+            工作照片请由网站维护人员在 GitHub 后台上传，访客页面不提供上传入口。
+            <span class="en">
+              Work photos are uploaded by the site administrator through GitHub.
+              No public upload interface is provided.
+            </span>
+          </p>
+        </div>
+
+        <div class="gallery-grid">
+          <figure
+            class="gallery-card"
+            data-placeholder="请上传 images/work-01.jpg&#10;Upload images/work-01.jpg"
+          >
+            <img
+              src="images/work-01.jpg"
+              alt="盆栽架建造过程"
+              onerror="this.parentElement.classList.add('is-empty'); this.remove();"
+            >
+            <figcaption class="gallery-overlay">
+              <strong>
+                建造过程
+                <span class="en">Construction Process</span>
+              </strong>
+            </figcaption>
+          </figure>
+
+          <figure
+            class="gallery-card"
+            data-placeholder="请上传 images/work-02.jpg&#10;Upload images/work-02.jpg"
+          >
+            <img
+              src="images/work-02.jpg"
+              alt="盆栽架安装调试"
+              onerror="this.parentElement.classList.add('is-empty'); this.remove();"
+            >
+            <figcaption class="gallery-overlay">
+              <strong>
+                安装调试
+                <span class="en">Installation and Commissioning</span>
+              </strong>
+            </figcaption>
+          </figure>
+
+          <figure
+            class="gallery-card"
+            data-placeholder="请上传 images/work-03.jpg&#10;Upload images/work-03.jpg"
+          >
+            <img
+              src="images/work-03.jpg"
+              alt="盆栽架运行状态"
+              onerror="this.parentElement.classList.add('is-empty'); this.remove();"
+            >
+            <figcaption class="gallery-overlay">
+              <strong>
+                运行状态
+                <span class="en">Operational Status</span>
+              </strong>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="safety">
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">
+            使用与维护
+            <span class="en">Use and Maintenance</span>
+          </p>
+
+          <h2>
+            保持安全、稳定和可追溯
+            <span class="en">Safe, Stable, and Traceable Operation</span>
+          </h2>
+        </div>
+
+        <div class="note-grid">
+          <article class="note-card">
+            <h3>
+              使用注意事项
+              <span class="en">Operating Notes</span>
+            </h3>
+            <p>
+              盆栽应均匀摆放，避免局部荷载过大。强风、暴雨等极端天气前后，
+              应及时检查框架、板材及连接部件。
+              <span class="en">
+                Distribute pots evenly and avoid excessive localized loading.
+                Inspect the frame, panels, and connections before and after severe weather.
+              </span>
+            </p>
+          </article>
+
+          <article class="note-card">
+            <h3>
+              维护记录
+              <span class="en">Maintenance Record</span>
+            </h3>
+            <p>
+              建议记录检查日期、维护内容、负责人和设施状态，
+              以确保长期运行信息完整、可追溯。
+              <span class="en">
+                Record inspection dates, maintenance actions, responsible personnel,
+                and facility condition to support long-term traceability.
+              </span>
+            </p>
+          </article>
+        </div>
+      </div>
     </section>
   </main>
 
-  <div id="imageModal" class="modal" onclick="closeModal()">
-    <span class="modal-close">&times;</span>
-    <img id="modalImage" alt="原始设计图放大预览">
-  </div>
-
-  <script>
-    const imageUpload = document.getElementById("imageUpload");
-    const designImage = document.getElementById("designImage");
-
-    imageUpload.addEventListener("change", function () {
-      const file = this.files && this.files[0];
-
-      if (!file) {
-        return;
-      }
-
-      if (!file.type.startsWith("image/")) {
-        alert("请选择图片文件。");
-        return;
-      }
-
-      const temporaryUrl = URL.createObjectURL(file);
-      designImage.src = temporaryUrl;
-    });
-
-    function openModal() {
-      const modal = document.getElementById("imageModal");
-      const modalImage = document.getElementById("modalImage");
-
-      modalImage.src = designImage.src;
-      modal.style.display = "flex";
-    }
-
-    function closeModal() {
-      document.getElementById("imageModal").style.display = "none";
-    }
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") {
-        closeModal();
-      }
-    });
-  </script>
+  <footer>
+    <div class="container">
+      <strong>
+        野外盆栽实验工作台
+        <span class="en">Outdoor Pot Experiment Workbench</span>
+      </strong>
+      <div style="margin-top:14px;">
+        最近更新：2026年7月
+        <span class="en">Last updated: July 2026</span>
+      </div>
+      <div>
+        资料维护人：陈卓
+        <span class="en">Content maintained by: Chen Zhuo</span>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
